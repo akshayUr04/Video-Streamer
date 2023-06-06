@@ -10,12 +10,16 @@ import (
 )
 
 func Streamer(c *gin.Context) {
+	// Fetch video id and playlist name from path parameters
 	videoID := c.Param("id")
 	playlist := c.Param("playlist")
+
+	// Create a channel to receive the playlist data
 	playlistDataChan := make(chan []byte)
 	errChan := make(chan error)
 
 	go func() {
+		// Fetch the playlist data in a separate goroutine
 		playlistData, err := readPlaylistData(videoID, playlist)
 		if err != nil {
 			errChan <- err // Send the error through the error channel
@@ -53,6 +57,8 @@ func readPlaylistData(videoID, playlist string) ([]byte, error) {
 	// Read the playlist file
 	playlistData, err := ioutil.ReadFile(playlistPath)
 	if err != nil {
+		fmt.Println("----------------------------------- in readPlaylistData function-------------------")
+		fmt.Println(err, err.Error())
 		return nil, err
 	}
 	return playlistData, nil

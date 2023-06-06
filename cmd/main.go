@@ -9,6 +9,6 @@ import (
 func main() {
 	r := gin.Default()
 	r.POST("upload", uploder.Upload)
-	r.GET("play/:id/:playList", streamer.Streamer)
+	r.GET("play/:id/:playlist", streamer.Streamer)
 	r.Run("localhost:8080")
 }
