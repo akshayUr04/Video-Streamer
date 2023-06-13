@@ -43,7 +43,6 @@ func Upload(c *gin.Context) {
 
 	// create a new file in the storage/fileName folder
 	newFile, err := os.Create(filePath)
-	// handle the error that may occur while creating new file
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "failed to crate file to copy video file",
@@ -56,9 +55,23 @@ func Upload(c *gin.Context) {
 	defer newFile.Close()
 
 	src, err := file.Open()
-
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to crate file to copy video file",
+			"error":   err.Error(),
+		})
+		return
+	}
 	//	copy uploaded file to new file
 	_, err = io.Copy(newFile, src)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "failed to crate file to copy video file",
+			"error":   err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusCreated, gin.H{
 		"message":  "successfully uploaded file to server",
 		"video_id": fileUuid,

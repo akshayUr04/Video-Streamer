@@ -57,7 +57,6 @@ func readPlaylistData(videoID, playlist string) ([]byte, error) {
 	// Read the playlist file
 	playlistData, err := ioutil.ReadFile(playlistPath)
 	if err != nil {
-		fmt.Println("----------------------------------- in readPlaylistData function-------------------")
 		fmt.Println(err, err.Error())
 		return nil, err
 	}
